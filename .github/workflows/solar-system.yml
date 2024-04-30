@@ -12,6 +12,10 @@ env:
   MONGO_USERNAME: ${{ vars.MONGO_USERNAME }}
   MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
 
+concurrency: 
+  group: matrix_test
+  cancel-in-progress: true
+    
 jobs:
     unit-testing:
         strategy:
