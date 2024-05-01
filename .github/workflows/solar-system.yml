@@ -18,7 +18,7 @@ jobs:
           max-parallel: 1
           fail-fast: false
           matrix:
-            nodejs_version: [18, 19, 20]
+            nodejs_version: [18, 20]
             operating_system: [ubuntu-latest, macos-latest]
             exclude:
               - nodejs_version: 18
@@ -38,9 +38,11 @@ jobs:
           run: npm install
     
         - name: Unit Testing
+          id: nodejs-unit-testing-step
           run: npm test
           
         - name: Archive Test Result
+          if: steps.nodejs-unit-testing-step.outcome == 'failure' || steps.nodejs-unit-testing-step.outcome == 'success'
           uses: actions/upload-artifact@v4
           with:
             name: Mocha-Test-Result-${{ matrix.operating_system }}-${{ matrix.nodejs_version }}
